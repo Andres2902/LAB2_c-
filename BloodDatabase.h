@@ -37,24 +37,46 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <map>
 #include "Donor.h"
+#include "Utils.h"
 
-class BloodDatabase {
+// Interfaz pública para BloodDatabase
+class IBloodDatabase {
+public:
+    virtual void getDonorDetails() = 0;
+    virtual void writeDataToFile() = 0;
+    virtual void searchAndDisplay() const = 0;
+    virtual void deleteDonor(const std::string& donorName) = 0;
+    virtual void showStatistics() const = 0;
+    virtual ~IBloodDatabase() {}
+};
+
+class BloodDatabase : public IBloodDatabase {
 private:
     const std::string fileName = "data.txt";
     std::vector<Donor> donors;
 
+    // Métodos privados de utilidad
     static void displayProvinces();
+    void loadDonorsFromFile() const;
+    std::vector<std::string> getAllBloodTypes() const;
 
 public:
-    static void clearConsole();
-    static void waitForKeyPress();
-    static int getValidatedInput(const std::string& prompt);
+    // Constructor
+    BloodDatabase();
 
-    void getDonorDetails();
-    void writeDataToFile();
-    void searchAndDisplay() const;
-    void deleteDonor(const std::string& donorName);
+    // Implementación de la interfaz
+    void getDonorDetails() override;
+    void writeDataToFile() override;
+    void searchAndDisplay() const override;
+    void deleteDonor(const std::string& donorName) override;
+    void showStatistics() const override;
+
+    // Métodos adicionales para análisis de datos
+    std::map<std::string, int> getBloodTypeFrequency() const;
+    std::map<std::string, double> getBloodTypePercentages() const;
+    std::string getMostCommonBloodType() const;
 };
 
-#endif // BLOODDATABASE_H
+#endif

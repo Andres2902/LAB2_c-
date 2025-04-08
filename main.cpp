@@ -19,8 +19,7 @@
 #include "Donor.h"
 #include <iostream>
 #include <limits>
-#include <string>
-using namespace std;
+#include <fstream>
 
 int main() {
     std::string donorName;
@@ -28,20 +27,21 @@ int main() {
     int choice;
 
     while (true) {
-        BloodDatabase::clearConsole();
+        //Utils::clearConsole();
 
         std::cout <<
-             " ░█████╗░██████╗░██╗░░░██╗███████╗  ██████╗░░█████╗░░░░░░██╗░█████╗░\n"
-             " ██╔══██╗██╔══██╗██║░░░██║╚════██║  ██╔══██╗██╔══██╗░░░░░██║██╔══██╗\n"
-             " ██║░░╚═╝██████╔╝██║░░░██║░░███╔═╝  ██████╔╝██║░░██║░░░░░██║███████║\n"
-             " ██║░░██╗██╔══██╗██║░░░██║██╔══╝░░  ██╔══██╗██║░░██║██╗░░██║██╔══██║\n"
-             " ╚█████╔╝██║░░██║╚██████╔╝███████╗  ██║░░██║╚█████╔╝╚█████╔╝██║░░██║\n"
-             " ░╚════╝░╚═╝░░╚═╝░╚═════╝░╚══════╝  ╚═╝░░╚═╝░╚════╝░░╚════╝░╚═╝░░╚═╝\n";
+             " ░█████╗░██████╗░██╗░░░██╗███████╗  ██████╗░░█████╗░░░░░░██╗░█████╗░\n"
+             " ██╔══██╗██╔══██╗██║░░░██║╚════██║  ██╔══██╗██╔══██╗░░░░░██║██╔══██╗\n"
+             " ██║░░╚═╝██████╔╝██║░░░██║░░███╔═╝  ██████╔╝██║░░██║░░░░░██║███████║\n"
+             " ██║░░██╗██╔══██╗██║░░░██║██╔══╝░░  ██╔══██╗██║░░██║██╗░░██║██╔══██║\n"
+             " ╚█████╔╝██║░░██║╚██████╔╝███████╗  ██║░░██║╚█████╔╝╚█████╔╝██║░░██║\n"
+             " ░╚════╝░╚═╝░░╚═╝░╚═════╝░╚══════╝  ╚═╝░░╚═╝░╚════╝░░╚════╝░╚═╝░░╚═╝\n";
 
         std::cout << "1. Registrar donante\n";
         std::cout << "2. Buscar donante\n";
         std::cout << "3. Eliminar donante\n";
-        std::cout << "4. Salir\n";
+        std::cout << "4. Ver estadísticas\n";
+        std::cout << "5. Salir\n";
         std::cout << "Ingrese su elección: ";
         std::cin >> choice;
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n'); // descartar cualquier entrada extra
@@ -57,16 +57,18 @@ int main() {
         case 3:
             std::cout << "Ingrese el nombre del donante a eliminar: ";
             std::getline(std::cin, donorName);
+            std::cout << "Eliminado Correctamente. \n ";
             database.deleteDonor(donorName);
-            std::cout << "Eliminado correctamente.\n";
-            BloodDatabase::waitForKeyPress();
             break;
         case 4:
+            database.showStatistics();
+            break;
+        case 5:
             std::cout << "Gracias por usar el Sistema de la Cruz Roja" << std::endl;
             return 0;
         default:
             std::cout << "Opción no válida. Inténtalo de nuevo.\n";
-            BloodDatabase::waitForKeyPress();
+            Utils::waitForKeyPress();
             break;
         }
     }
